@@ -1,11 +1,11 @@
 import { useState } from "react"
 
-export default function BoardSizeForm({ onSetBoardSize }: { onSetBoardSize: (size: number) => void }) {
+export default function BoardSizeForm({ setBoardSize }: { setBoardSize: (size: number) => void }) {
     const [inputValue, setInputValue] = useState(3) 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        onSetBoardSize(inputValue) 
+        setBoardSize(inputValue) 
     }
 
     return (

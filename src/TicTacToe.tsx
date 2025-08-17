@@ -71,7 +71,7 @@ export default function TicTacToe() {
     return (
         <main>
             <h1>Tic Tac Toe</h1>
-            <BoardSizeForm onSetBoardSize={setBoardSize}/>
+            <BoardSizeForm setBoardSize={setBoardSize}/>
             <p>{winner ? `Player ${winner} won!` : `It is ${currentPlayer}'s turn`}</p>
             <div className='ttt-container' style={{ display: 'grid', gridTemplateColumns: `repeat(${boardSize}, 128px)`, gap: '4px'}}>
                 {
