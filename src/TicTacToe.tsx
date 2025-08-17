@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import BoardSizeForm from './BoardSizeForm';
 
 const generateWinningPatterns = (boardSize: number) => {
     const topRow = Array.from({ length: boardSize }, (_, idx) => idx);
@@ -9,7 +10,7 @@ const generateWinningPatterns = (boardSize: number) => {
         patterns.push(topRow.map(item => i + (item * boardSize))) // verticals
     }
 
-    patterns.push(topRow.map(item => item * (boardSize - 1))) // left diagonal
+    patterns.push(topRow.map(item => item * (boardSize + 1))) // left diagonal
     patterns.push(topRow.map(item => (item + 1) * (boardSize - 1))) // right diagonal
 
     return patterns
@@ -22,8 +23,8 @@ export default function TicTacToe() {
     const [boardSize, setBoardSize] = useState<number>(3)
 
     const [grid, setGrid] = useState<(string | null)[][]>(
-            Array.from({ length: boardSize }, () => Array(boardSize).fill(null))
-        );
+        Array.from({ length: boardSize }, () => Array(boardSize).fill(null))
+    );
 
     const winningPatterns = generateWinningPatterns(boardSize)
 
@@ -38,6 +39,12 @@ export default function TicTacToe() {
 
         return null
     }
+
+    useEffect(() => {
+        setGrid(Array.from({ length: boardSize }, () => Array(boardSize).fill(null)));
+        setWinner(null);
+        setCurrentPlayer('X');
+    }, [boardSize]);
 
     const resetGame = () => {
         setGrid(Array.from({ length: boardSize }, () => Array(boardSize).fill(null)));
@@ -62,10 +69,10 @@ export default function TicTacToe() {
     }
 
     return (
-        <div>
+        <main>
             <h1>Tic Tac Toe</h1>
-            <div>Set Board Size</div>
-            <div>{winner ? `Player ${winner} won!` : `It is ${currentPlayer}'s turn`}</div>
+            <BoardSizeForm onSetBoardSize={setBoardSize}/>
+            <p>{winner ? `Player ${winner} won!` : `It is ${currentPlayer}'s turn`}</p>
             <div className='ttt-container' style={{ display: 'grid', gridTemplateColumns: `repeat(${boardSize}, 128px)`, gap: '4px'}}>
                 {
                     grid.map((row, rowIdx) => 
@@ -79,7 +86,7 @@ export default function TicTacToe() {
                                                         </button>))
                 }
             </div>
-            <div onClick={() => resetGame()}>Reset Game</div>
-        </div>
+            <button className='reset-btn' onClick={() => resetGame()}>Reset Game</button>
+        </main>
     )
 }
