@@ -1,0 +1,7 @@
+.cell {
+  width: 120px;
+  aspect-ratio: 1;
+  border: 1px solid black;
+  border-radius: 12px;
+  font-size: 48px;
+}
